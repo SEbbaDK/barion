@@ -1,0 +1,6 @@
+version: 2.0
+shards:
+  git:
+    git: https://github.com/smacker/libgit2.cr.git
+    version: 0.1.0+git.commit.6267162e7d9e16edace62f942d08565518bc73d9
+

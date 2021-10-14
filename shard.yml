@@ -1,0 +1,8 @@
+name: prompt
+version: 0.1.0
+
+dependencies:
+    git:
+        github: smacker/libgit2.cr
+
+license: GPLv3
