@@ -1,8 +1,8 @@
 { pkgs ? import <nixpkgs> {}
 }:
 pkgs.crystal.buildCrystalPackage rec {
-    pname = "sebbaprompt";
-    version = "0.1";
+    pname = "barion";
+    version = "0.2";
 
 	src = ./.;
 

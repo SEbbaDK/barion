@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# The bash version is deprecated, and is not compatible with the current system
+
 SHELL_PS1="\e[1;30;43m$([ -n "$IN_NIX_SHELL" ] && if [ -n "$name" ]; then echo " $name "; else echo ' nix-shell '; fi)\e[m"
 USER_PS1="\e[1;30;41m $USER \e[m"
 HOST_PS1="\e[1;30;45m $HOSTNAME \e[m"
