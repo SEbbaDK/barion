@@ -1,3 +1,27 @@
+class GitDiff
+    property changed : UInt16 = 0
+    property added   : UInt16 = 0
+    property removed : UInt16 = 0
+    
+    def to_s(s : IO)
+		s << "#{changed}¤" if changed != 0
+		s << " " if changed != 0 && added != 0
+		s << "#{added}+" if added != 0
+		s << " " if added != 0 && removed != 0
+		s << "#{removed}-" if removed != 0
+    end
+    
+    def to_s
+        String.build do |s|
+            to_s s
+        end
+    end
+    
+    def none?
+        (changed + added + removed) == 0
+    end
+end
+
 class GitRepo
     getter path : Path, git : Path
     
@@ -39,34 +63,31 @@ class GitRepo
     end
     
     def status_abbrev
-        staged = 0
-        changed = 0
-        added = 0
-        removed = 0
+        working = GitDiff.new
+        staged = GitDiff.new
 		self.status.each_line do |l|
-    		header = l[0,2]
-    		
-    		if header[0] != '?' && header[0] != ' '
-        		staged += 1
-    		end
-    		
-        	case header
-    		when "MM", " M"
-        		changed += 1
+        	case l[0,2]
+    		when " M"
+        		working.changed += 1
+        	when "MM"
+            	staged.changed += 1
     		when "??"
-        		added += 1
-    		when "DD", " D"
-        		removed += 1
+        		working.added += 1
+        	when "A "
+            	staged.added += 1
+    		when " D"
+        		working.removed += 1
+        	when "D "
+            	staged.removed += 1
         	else
             	puts "unkown git statusline »#{l[0,2]}«"
             end
 		end
-		output = ""
-		output += " #{staged}×" if staged != 0
-		output += " #{changed}¤" if changed != 0
-		output += " #{added}+" if added != 0
-		output += " #{removed}-" if removed != 0
-		output
+		if staged.none?
+    		working.to_s
+		else
+    		"#{working} [#{staged}]"
+		end
     end
     
     # We check if the current head has a remote by checking .git/config

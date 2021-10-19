@@ -3,6 +3,7 @@
 require "system"
 require "path"
 require "file"
+require "colorize"
 
 require "./gitrepo"
 
@@ -23,7 +24,12 @@ output += format "1;30;42", ENV["PWD"].sub(ENV["HOME"], "~")
 # GIT BAR
 begin
     repo = GitRepo.find(Path.new("./"))
-    output += format "1;30;44", repo.head_abbrev + repo.status_abbrev + (!repo.has_remote? ? " ↟" : "")
+    gitstring = repo.head_abbrev
+    status = repo.status_abbrev
+    gitstring += " " + status if !status.empty?
+    gitstring += " ↟" if !repo.has_remote?
+    
+    output += format "1;30;44", gitstring
 rescue ex
     nil
 end
