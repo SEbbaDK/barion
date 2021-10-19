@@ -16,7 +16,7 @@ end
 output += format "1;30;43", (ENV["name"]? || "nix-shell") if ENV["IN_NIX_SHELL"]?
 
 # BASE BARS
-output += format "1;30;41", ENV["USER"]
+output += format "1;30;41", ENV["USER"]? || "no $USER"
 output += format "1;30;45", ENV["HOSTNAME"]? || System.hostname
 output += format "1;30;42", ENV["PWD"].sub(ENV["HOME"], "~")
 
