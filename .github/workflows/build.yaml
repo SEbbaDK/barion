@@ -1,9 +1,9 @@
-me: Examples
+name: Build
 on: push
 jobs:
-  minimal:
+  build:
     runs-on: ubuntu-latest
-      steps:
-      - uses: nixbuild/nix-quick-install-action@v7
-      - run: nix-build bash.nix
-      - run: nix-build cr.nix
+    steps:
+     - uses: actions/checkout@v2
+     - uses: nixbuild/nix-quick-install-action@v7
+     - run: nix-build
