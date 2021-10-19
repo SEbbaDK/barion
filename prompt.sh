@@ -41,6 +41,12 @@ then
 else
   GIT_PS1=""
 fi
-echo -e "$SHELL_PS1$USER_PS1$HOST_PS1$PATH_PS1$GIT_PS1"
+if [ ! $1 = "0" ]
+then
+    STATUS_PS1="\e[1;30;41m $1 \e[m"
+else
+	STATUS_PS1=""
+fi
+echo -e "$SHELL_PS1$USER_PS1$HOST_PS1$PATH_PS1$GIT_PS1$STATUS_PS1"
 PS1='\[\e[1m\]\$\[\e[m\] '
 
