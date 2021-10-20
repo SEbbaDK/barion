@@ -6,6 +6,8 @@ Barion is a compiled fast prompt to use across any shell.
 ## Features
 The special features of Barion is support for showing `nix-shell`, showing a compact `git` status overview and optional `fish_prompt`-like view of the exit status of last command.
 
+![GIF showing the exit code, git and nix-shell bars](screenshot.gif)
+
 ## Building
 Building Barion requires just [Crystal](https://crystal-lang.org/) as there is no dependencies. Running `crystal build --release prompt.cr -o barion` should be everything necessary. There is also an environment set up for building via [nix](https://nixos.org/), so `nix-build` will take care of everything.
 
