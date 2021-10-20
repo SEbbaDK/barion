@@ -21,7 +21,7 @@ class GitDiff
     end
     
     def none?
-        (changed + added + removed) == 0
+        (changed + added + removed + renamed) == 0
     end
 end
 
