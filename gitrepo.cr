@@ -2,13 +2,16 @@ class GitDiff
     property changed : UInt16 = 0
     property added   : UInt16 = 0
     property removed : UInt16 = 0
+    property renamed : UInt16 = 0
     
     def to_s(s : IO)
-		s << "#{changed}¤" if changed != 0
-		s << " " if changed != 0 && added != 0
+		s << "#{changed}♦" if changed != 0
+		s << " " if (changed != 0) && added != 0
 		s << "#{added}+" if added != 0
-		s << " " if added != 0 && removed != 0
+		s << " " if (changed != 0 || added != 0) && removed != 0
 		s << "#{removed}-" if removed != 0
+		s << " " if (changed != 0 || added != 0 || removed != 0) && renamed != 0
+		s << "#{renamed}➤" if renamed != 0
     end
     
     def to_s
@@ -66,22 +69,34 @@ class GitRepo
         working = GitDiff.new
         staged = GitDiff.new
 		self.status.each_line do |l|
-        	case l[0,2]
-    		when " M"
-        		working.changed += 1
-        	when "MM"
+        	case l[0]
+    		when ' ', '?'
+        		# Do nothing
+        	when 'M'
             	staged.changed += 1
-    		when "??"
-        		working.added += 1
-        	when "A "
+        	when 'A'
             	staged.added += 1
-    		when " D"
-        		working.removed += 1
-        	when "D "
+        	when 'D'
             	staged.removed += 1
+            when 'R'
+                staged.renamed += 1
         	else
-            	puts "unkown git statusline »#{l[0,2]}«"
-            end
+            	puts "unkown staging git status »#{l[0,2]}«"
+        	end
+        	
+        	case l[1]
+        	when ' '
+            	# Do nothing
+    		when 'M'
+        		working.changed += 1
+    		when '?'
+        		working.added += 1
+    		when 'D'
+        		working.removed += 1
+        	else
+            	puts "unkown working git statusline »#{l[0,2]}«"
+        	end
+        	
 		end
 		if staged.none?
     		working.to_s
