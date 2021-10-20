@@ -18,7 +18,7 @@ If you want to keep your prompt inside nix shells, you can use the below code:
 ```bash
 function barion_prompt {
 	barion $1
-	PS1="\[\e[1m\]\$\[\e[m\]"
+	PS1="\[\e[1m\]\$\[\e[m\] "
 }
 PROMPT_COMMAND="barion_prompt \$?"
 ```
@@ -28,7 +28,7 @@ If the fish-style status-code display is not needed, simply drop the parameter:
 ```bash
 function barion_prompt {
 	barion
-	PS1="\[\e[1m\]\$\[\e[m\]"
+	PS1="\[\e[1m\]\$\[\e[m\] "
 }
 PROMPT_COMMAND="barion_prompt"
 ```
@@ -41,7 +41,7 @@ For fish we can just use the `fish_prompt` hook.
 ```fish
 function fish_prompt
 	barion $status
-	echo "\e[1m\$\e[m"
+	echo "\e[1m\$\e[m "
 end
 ```
 
@@ -50,7 +50,7 @@ Again, if the status is not needed or wanted, just remove the parameter:
 ```fish
 function fish_prompt
 	barion
-	echo "\e[1m\$\e[m"
+	echo "\e[1m\$\e[m "
 end
 ```
 
@@ -61,7 +61,7 @@ With zsh we use the `precmd` hook to achieve the same effect as the other shells
 function precmd {
 	barion $?
 }
-PROMPT="%B\$%b"
+PROMPT="%B\$%b "
 ```
 
 If you don't want the fish-style exit codes shown in the prompt, just remove the parameter passed to barion.
@@ -70,7 +70,7 @@ If you don't want the fish-style exit codes shown in the prompt, just remove the
 function precmd {
 	barion
 }
-PROMPT="%B\$%b"
+PROMPT="%B\$%b "
 ```
 
 ### Other shells
